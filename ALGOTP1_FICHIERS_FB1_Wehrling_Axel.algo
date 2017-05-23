@@ -1,0 +1,140 @@
+//BUT: Programme qui donne le groupe dans lequel se trouve le verbe à l'infinitSi entré par l'utilisateur et le conjugue.
+//ENTREE: Une Chaine de caractère (le verbe).
+//SORTIE: Le verbe conjugué et son groupe.
+
+Algorithme: ALGOTP1_FICHIERS_FB1_Wehrling_Axel
+
+const
+        VerbeInfi='rire recevoir aller bouillir envoyer peindre habiter payer mourrir hair vouloir finir amuser '
+		VerbeGroupe2='finis hais '
+		VerbeIssant='finissant haissant '
+
+var
+        FichInfini,FichIssant : Text
+
+//BUT: Procedure qui crée un fichier text avec des verbes à l'infinitSi.
+//ENTREE: Fichier Text.
+//SORTIE: Fichier Text avec une liste de verbe.
+		
+		
+procedure CreaFichierInfinitSi (var FichInfini: Text)
+
+var
+		//Compteur est la variable qui va garder la possition de la lettre juste après le dernier espace.
+        i,compteur : entier
+		
+		//verSichar est la variable intermédiaire qui va servir au test pour savoir si le Caractère est un 'espace'.
+        verSichar : chaine
+		
+		//Variable qui récupére le verbe.
+		verbe : chaine
+
+
+Debut
+        Assigner(FichInfini,'FichierVerbeInfini.txt')
+        Reecrire(FichInfini)
+		compteur<--1
+        Pour i De 1 A longueur(VerbeInfi) Faire
+        Debut
+            verSichar<--Extraction(VerbeInfi,i,1)
+            Si (verSichar=' ') alors
+            Debut
+			
+				//i est la position de l'espace, donc (i-compteur)=longueur du verbe.
+				//compteur quant à lui est la première lettre
+				verbe<--Extraction(VerbeInfi,compteur,i-compteur)
+				Ecrire(FichInfini,verbe)
+				
+				//met le compteur sur la position de la première lettre du prochain verbe.
+				compteur<--i+1
+			Fin
+        Fin
+		Fermer(FichInfini)
+Fin
+
+
+//BUT: Procedure qui crée un fichier text avec des verbes du 2 ème groupe au participe passé.
+//ENTREE: Fichier Text.
+//SORTIE: Fichier Text avec une liste de verbe.
+
+procedure CreaFichierIssant(var FichIssant : Text)
+var
+        i,compteur : entier
+        verSichar : chaine
+		verbe : chaine
+
+Debut
+	Assigner(FichIssant,'FichierVerbeIssant.txt')
+	Reecrire(FichIssant)
+	compteur<--1
+        Pour i DE 1 A longueur(VerbeIssant) faire
+        Debut
+            verSichar<--Extraction(VerbeIssant,i,1)
+            Si  (verSichar=' ') alors
+            Debut
+				verbe<--copy(VerbeIssant,compteur,i-compteur)
+				Ecrire(FichIssant,verbe)
+				compteur<--i+1
+			Fin
+        Fin
+		fermer(FichIssant)
+Fin
+
+//BUT: Fonction qui vérSiie si le mot existe dans la liste de verbe à l'infinitSi.
+//ENTREE: Une chaine de caractère.
+//SORTIE: Booleen.
+
+
+function VerSiVerbe () : booleen;
+
+var
+	//Variable qui va être comparée au mot entré par l'utilisateur.
+	verSi, VerbeEntr : chaine
+	//Booleen qui va prFinre la valeur 'Vrai' si le verbe entré est dans la liste de verbe.
+	Test, TestSave : booleen
+
+Debut
+	repeter
+		Debut
+			Ecrire('Veuillez entrer un verbe à l''infinitSi.')
+			Lire(VerbeEntr)
+			VerbeEntr<--minuscul(VerbeEntr)
+			Ouvrir(FichInfini)
+			Test<--Faux
+			TestSave<--Faux
+			While not (Eof(FichInfini)) do
+				Debut
+					readln(FichInfini,verSi)
+					
+					Si (VerbeEntr=verSi) Alors
+						Test<--Vrai
+					Sinon
+						Test<--Faux
+						
+					Si (Test=Vrai) Alors	
+						TestSave<--Vrai
+						
+				Fin
+			Si (TestSave=Faux) Alors
+				Ecrire("Ce verbe n'existe pas/n'est pas dans la liste!")
+		Fin
+	Jusqu'à (TestSave=Vrai)
+	
+	VerSiVerbe<--Test
+	
+Fin
+
+DEBUT
+		CreaFichierInfinitSi(FichInfini);
+		CreaFichierIssant(FichIssant);
+		VerSiVerbe;
+FIN.
+
+
+//Il manque:
+-Procedure d'affichage du Fichier des verbes à infinitifs.
+-Procedure d'affichage du Fichier des participe passé.
+-Procedure qui conjugue le verbe au premier groupe.
+-Procedure qui conjugue le verbe au deuxieme groupe.
+-Procedure qui conjugue le verbe au troisieme groupe.
+-Procedure qui affiche le verbe conjugué.
